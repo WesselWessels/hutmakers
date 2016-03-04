@@ -308,6 +308,30 @@ angular.module('hutmakers', ['ngDialog'])
         return price;
     };
 
+    gameControl.clearAll = function(){
+        angular.forEach(gameControl.menuItems.bread, function(bread){
+            bread.quantity = 0;
+        });
+        angular.forEach(gameControl.menuItems.spread, function(spread){
+            spread.quantity = 0;
+        });
+        angular.forEach(gameControl.menuItems.greens, function(greens){
+            greens.quantity = 0;
+        });
+        angular.forEach(gameControl.menuItems.veg, function(veg){
+            veg.quantity = 0;
+        });
+        angular.forEach(gameControl.menuItems.cheese, function(cheese){
+            cheese.quantity = 0;
+        });
+        angular.forEach(gameControl.menuItems.meat, function(meat){
+            meat.quantity = 0;
+        });
+        angular.forEach(gameControl.menuItems.nuts, function(nuts){
+            nuts.quantity = 0;
+        });
+    }
+
     gameControl.getButtonText = function(){
         if (gameControl.viewOrder == true) {
             return "Back"
@@ -318,7 +342,59 @@ angular.module('hutmakers', ['ngDialog'])
     };
 
     gameControl.pressedOrder = function(){
-        gameControl.viewOrder = !gameControl.viewOrder
+        //gameControl.viewOrder = !gameControl.viewOrder
+        var tempString = "<strong>Bread</strong>";
+        angular.forEach(gameControl.menuItems.bread, function(bread){
+            if (bread.quantity > 0) {
+                tempString += "<br>"+bread.name + " x" + bread.quantity;
+            }
+        });
+        tempString += "<br><strong>Spread</strong>"
+         angular.forEach(gameControl.menuItems.spread, function(spread){
+            if (spread.quantity > 0) {
+                tempString += "<br>"+spread.name + " x" + spread.quantity;
+            }
+        });
+         tempString += "<br><strong>Greens + Grains</strong>"
+         angular.forEach(gameControl.menuItems.greens, function(greens){
+            if (greens.quantity > 0) {
+                tempString += "<br>"+greens.name + " x" + greens.quantity;
+            }
+        });
+        tempString += "<br><strong>Veg</strong>"
+         angular.forEach(gameControl.menuItems.veg, function(veg){
+            if (veg.quantity > 0) {
+                tempString += "<br>"+veg.name + " x" + veg.quantity;
+            }
+        }); 
+        tempString += "<br><strong>Cheese</strong>"
+         angular.forEach(gameControl.menuItems.cheese, function(cheese){
+            if (cheese.quantity > 0) {
+                tempString += "<br>"+cheese.name + " x" + cheese.quantity;
+            }
+        });  
+        tempString += "<br><strong>Meat</strong>"
+         angular.forEach(gameControl.menuItems.meat, function(meat){
+            if (meat.quantity > 0) {
+                tempString += "<br>"+meat.name + " x" + meat.quantity;
+            }
+        });  
+        tempString += "<br><strong>Nuts</strong>"
+         angular.forEach(gameControl.menuItems.nuts, function(nuts){
+            if (nuts.quantity > 0) {
+                tempString += "<br>"+nuts.name + " x" + nuts.quantity;
+            }
+        }); 
+        tempString += "<br><br><strong>Total Price:</strong><br>R"+ gameControl.getTotalPrice();  
+       console.log("pressed");
+        var dialog = ngDialog.open({
+            template: '<p>'+tempString+'</p>',
+            plain: true
+        });
+        dialog.closePromise.then(function(data){
+           console.log("Dismissed"); 
+            //clearSelection();
+        });
     };
 
     gameControl.notOrder = function(){
