@@ -1,0 +1,344 @@
+<!doctype html>
+<html ng-app="hutmakers">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script type="text/javascript" src="js/ngDialog.min.js"></script>
+    <link rel="stylesheet" href="css/ngDialog-theme-default.min.css">  
+    <script src="app.js"></script>
+       <!-- Material Design fonts -->
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <!-- Bootstrap Material Design -->
+  <link rel="stylesheet" type="text/css" href="dist/css/bootstrap-material-design.css">
+  <link rel="stylesheet" type="text/css" href="dist/css/ripples.min.css">
+      <link rel="stylesheet" href="css/ngDialog.min.css">
+    <link rel="stylesheet" href="app.css">
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  </head>
+  <body>
+
+    
+
+    
+    <div ng-controller="Menu as game">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Hutmakers Total: R{{game.getTotalPrice()}}</a>
+          <button class="btn btn-default navbar-btn" ng-click="game.pressedOrder()">{{game.getButtonText()}}</button>
+        </div>
+      </div><!-- /.container-fluid -->
+    </nav>
+
+        <div class="container">
+        <div ng-show="game.notOrder()">
+          <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#bread">Bread</a></li>
+            <li><a data-toggle="tab" href="#spread">Spread</a></li>
+            <li><a data-toggle="tab" href="#greens">Greens+Grains</a></li>
+            <li><a data-toggle="tab" href="#fillings">Fillings</a></li>
+            
+          </ul>
+
+          <div class="tab-content">
+
+            <div id="bread" class="tab-pane fade in active">
+              <h3>Bread R{{game.getBreadPrice()}}</h3>
+              <p>
+                <table class="table">
+                    <thead>
+                        <th>Bread</th>
+                        <th>Price</th>
+                        <th></th>
+                        <th>Qty</th>
+                    </thead>
+                   
+                    <tbody>
+                    <tr ng-repeat="item in game.menuItems.bread">
+                        <td>{{item.name}} <span ng-show="item.vegan">(V)</span></td>
+                        <td>R{{item.price}}</td>
+
+                        <td style="white-space: nowrap">
+                            <button ng-click="game.addBread($index)" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button><button ng-click="game.removeBread($index)" class="btn btn-danger"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button> 
+                           
+                        </td>
+
+                        <td>{{item.quantity}}</td>
+
+                    </tr>
+                    </tbody>
+                </table>
+
+
+                   <!-- <div ng-repeat="item in game.menuItems.bread" class="row">
+                        <div class="col-md-8 col-xs-6"><strong>{{item.name}} </strong> <span ng-show="item.vegan">(V)</span></div>
+                        <div class="col-md-4 col-xs-6"><button class="btn btn-sm btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button><button class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button> 
+                        </div>
+                    </div> -->
+                
+              </p>
+            </div>
+            <div id="spread" class="tab-pane fade">
+              <h3>Spread R{{game.getSpreadPrice()}}</h3>
+              <table class="table">
+                    <thead>
+                        <th>Spread</th>
+                        <th>Price</th>
+                        <th></th>
+                        <th>Qty</th>
+                    </thead>
+                   
+                    <tbody>
+                    <tr ng-repeat="item in game.menuItems.spread">
+                        <td>{{item.name}} <span ng-show="item.vegan">(V)</span></td>
+                        <td>R{{item.price}}</td>
+
+                        <td style="white-space: nowrap">
+                            <button ng-click="game.addSpread($index)" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button><button ng-click="game.removeSpread($index)" class="btn btn-danger"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button> 
+                           
+                        </td>
+
+                        <td>{{item.quantity}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="greens" class="tab-pane fade">
+              <h3>Greens + Grains R{{game.getGreenPrice()}}</h3>
+              <table class="table">
+                    <thead>
+                        <th>Greens</th>
+                        <th>Price</th>
+                        <th></th>
+                        <th>Qty</th>
+                    </thead>
+                   
+                    <tbody>
+                    <tr ng-repeat="item in game.menuItems.greens">
+                        <td>{{item.name}} <span ng-show="item.vegan">(V)</span></td>
+                        <td>R{{item.price}}</td>
+
+                        <td style="white-space: nowrap">
+                            <button ng-click="game.addGreen($index)" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button><button ng-click="game.removeGreen($index)" class="btn btn-danger"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button> 
+                           
+                        </td>
+
+                        <td>{{item.quantity}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="order" class="tab-pane fade">
+                Order
+            </div>
+            <div id="fillings" class="tab-pane fade">
+              <h3>Fillings R{{game.getFillingPrice()}}</h3>
+              
+                <div class="container">
+                  <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#veg">Veg</a></li>
+                    <li><a data-toggle="tab" href="#cheese">Cheese</a></li>
+                    <li><a data-toggle="tab" href="#meat">Meat</a></li>
+                    <li><a data-toggle="tab" href="#nuts">Nuts</a></li>
+                  </ul>
+
+                  <div class="tab-content">
+                        <div id="veg" class="tab-pane fade in active">
+                          <h3>Veg R{{game.getVegPrice()}}</h3>
+                          <table class="table">
+                                <thead>
+                                    <th>Veg</th>
+                                    <th>Price</th>
+                                    <th></th>
+                                    <th>Qty</th>
+                                </thead>
+                               
+                                <tbody>
+                                <tr ng-repeat="item in game.menuItems.veg">
+                                    <td>{{item.name}} <span ng-show="item.vegan">(V)</span></td>
+                                    <td>R{{item.price}}</td>
+
+                                    <td style="white-space: nowrap">
+                                        <button ng-click="game.addVeg($index)" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button><button ng-click="game.removeVeg($index)" class="btn btn-danger"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button> 
+                                       
+                                    </td>
+
+                                    <td>{{item.quantity}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="cheese" class="tab-pane fade">
+                          <h3>Cheese R{{game.getCheesePrice()}}</h3>
+                          <table class="table">
+                                <thead>
+                                    <th>Cheese</th>
+                                    <th>Price</th>
+                                    <th></th>
+                                    <th>Qty</th>
+                                </thead>
+                               
+                                <tbody>
+                                <tr ng-repeat="item in game.menuItems.cheese">
+                                    <td>{{item.name}} <span ng-show="item.vegan">(V)</span></td>
+                                    <td>R{{item.price}}</td>
+
+                                    <td style="white-space: nowrap">
+                                        <button ng-click="game.addCheese($index)" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button><button ng-click="game.removeCheese($index)" class="btn btn-danger"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button> 
+                                       
+                                    </td>
+
+                                    <td>{{item.quantity}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="meat" class="tab-pane fade">
+                          <h3>Meat R{{game.getMeatPrice()}}</h3>
+                          <table class="table">
+                                <thead>
+                                    <th>Meat</th>
+                                    <th>Price</th>
+                                    <th></th>
+                                    <th>Qty</th>
+                                </thead>
+                               
+                                <tbody>
+                                <tr ng-repeat="item in game.menuItems.meat">
+                                    <td>{{item.name}} <span ng-show="item.vegan">(V)</span></td>
+                                    <td>R{{item.price}}</td>
+
+                                    <td style="white-space: nowrap">
+                                        <button ng-click="game.addMeat($index)" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button><button ng-click="game.removeMeat($index)" class="btn btn-danger"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button> 
+                                       
+                                    </td>
+
+                                    <td>{{item.quantity}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="nuts" class="tab-pane fade">
+                          <h3>Nuts R{{game.getNutsPrice()}}</h3>
+                          <table class="table">
+                                <thead>
+                                    <th>Nuts</th>
+                                    <th>Price</th>
+                                    <th></th>
+                                    <th>Qty</th>
+                                </thead>
+                               
+                                <tbody>
+                                <tr ng-repeat="item in game.menuItems.nuts">
+                                    <td>{{item.name}} <span ng-show="item.vegan">(V)</span></td>
+                                    <td>R{{item.price}}</td>
+
+                                    <td style="white-space: nowrap">
+                                        <button ng-click="game.addNuts($index)" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button><button ng-click="game.removeNuts($index)" class="btn btn-danger"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button> 
+                                       
+                                    </td>
+
+                                    <td>{{item.quantity}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                  </div>
+                </div>
+
+            </div>
+          </div>
+          </div>
+
+          <div ng-show="game.order()">
+                <h3>Bread R{{game.getBreadPrice()}}</h3>
+              <p>
+                <table class="table">
+                    <thead>
+                        <th>Bread</th>
+                        <th>Price</th>
+                        <th></th>
+                        <th>Qty</th>
+                    </thead>
+                   
+                    <tbody>
+                    <tr ng-repeat="item in game.breadInOrder()">
+                        <td>{{item.name}} <span ng-show="item.vegan">(V)</span></td>
+                        <td>R{{item.price}}</td>
+
+                        <td style="white-space: nowrap">
+                            <button ng-click="game.addBread($index)" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button><button ng-click="game.removeBread($index)" class="btn btn-danger"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button> 
+                           
+                        </td>
+
+                        <td>{{item.quantity}}</td>
+
+                    </tr>
+                    </tbody>
+                </table>
+
+
+                   <!-- <div ng-repeat="item in game.menuItems.bread" class="row">
+                        <div class="col-md-8 col-xs-6"><strong>{{item.name}} </strong> <span ng-show="item.vegan">(V)</span></div>
+                        <div class="col-md-4 col-xs-6"><button class="btn btn-sm btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button><button class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button> 
+                        </div>
+                    </div> -->
+                
+              </p>
+          </div>
+        </div>
+
+        <!--<div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div ng-show="game.showStart">
+                    <h2>Players</h2>
+                    <ul class="unstyled">
+                        <li ng-repeat="player in game.players">
+                             <input type="checkbox" ng-model="player.selected">
+                            {{player.name}}
+                        </li>
+                    </ul>
+                    <form ng-submit="game.addPlayer()">
+                        <input type="text" ng-model="game.newPlayer" size="30" placeholder="add new player here" required>
+                        <input class="btn-primary" type="submit" value="add">
+                    </form>
+
+                    <h2>Roles {{game.selectedRoles()}} of {{game.requiredRoles()}}</h2>
+
+                    <ul>
+                        <li ng-repeat="role in game.roles">
+                            <input type="checkbox" ng-model="role.selected">
+                            <button class="btn btn-xs {{game.getRoleButtonClass($index)}}" ng-click="game.roleButtonClicked($index)">{{role.name}}</button>
+                        </li>
+                    </ul>
+                    <button class="btn btn-success" ng-click="game.startGame()" ng-show="game.isReady()">Start</button>
+                </div>
+
+                <div ng-show="game.showGame">
+                    <button class="btn btn-danger" ng-click="game.stopGame()">End Game</button>
+                    <ul>
+                        <li ng-repeat="player in game.actualPlayers">
+                            <input type="checkbox" ng-model="player.selected">
+                            <button class="btn {{game.getButtonClass($index)}}" ng-click="game.selectPlayer($index)">{{player.name}}</button>
+                        </li>
+                    </ul>
+                    <button class="btn btn-danger" ng-show="game.showButton()" ng-click="game.showButtonPressed()">Show</button>
+                    <button class="btn btn-danger" ng-show="game.showSwitch()" ng-click="game.switchButtonPressed()">Switch</button>
+
+
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+       </div> -->
+    </div>
+      
+  </body>
+</html>
